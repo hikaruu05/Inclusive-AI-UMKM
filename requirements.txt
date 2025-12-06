@@ -1,0 +1,58 @@
+# Backend Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+python-multipart==0.0.6
+
+# Authentication
+python-jose[cryptography]==3.3.0
+passlib[argon2]==1.7.4
+
+# Database
+sqlalchemy==2.0.23
+alembic==1.13.0
+
+# Excel Export
+openpyxl==3.1.2
+xlsxwriter==3.1.9
+
+# OCR Libraries
+easyocr==1.7.1
+pytesseract==0.3.10
+pillow==10.1.0
+opencv-python==4.8.1.78
+
+# AI/ML Libraries
+openai==1.3.7
+google-generativeai==0.3.1
+prophet==1.1.5
+scikit-learn==1.3.2
+pandas==2.1.3
+numpy==1.26.2
+
+# Telegram Bot
+python-telegram-bot==20.7
+
+# WhatsApp (optional - requires Twilio account)
+twilio==8.11.0
+
+# Utilities
+python-dotenv==1.0.0
+requests==2.31.0
+httpx==0.25.2
+aiofiles==23.2.1
+
+# Date/Time
+python-dateutil==2.8.2
+pytz==2023.3
+
+# Image Processing
+opencv-python-headless==4.8.1.78
+
+# Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+httpx==0.25.2
+
+# Monitoring (optional)
+loguru==0.7.2

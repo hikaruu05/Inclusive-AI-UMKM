@@ -1,0 +1,64 @@
+name: umkm_payment_validator
+description: Inclusive AI Payment Validation & Book Report OCR for UMKM
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # UI & Design
+  cupertino_icons: ^1.0.2
+  google_fonts: ^6.1.0
+  flutter_svg: ^2.0.9
+  
+  # State Management
+  provider: ^6.1.1
+  get: ^4.6.6
+  
+  # Networking
+  http: ^1.1.0
+  dio: ^5.4.0
+  
+  # Image Handling
+  image_picker: ^1.0.5
+  cached_network_image: ^3.3.0
+  flutter_image_compress: ^2.1.0
+  
+  # Storage
+  shared_preferences: ^2.2.2
+  
+  # Charts & Graphs
+  fl_chart: ^0.65.0
+  
+  # Camera & OCR
+  camera: ^0.10.5+7
+  
+  # Notifications
+  flutter_local_notifications: ^16.3.0
+  
+  # QR Code
+  qr_code_scanner: ^1.0.1
+  qr_flutter: ^4.1.0
+  
+  # Excel Export
+  excel: ^4.0.2
+  path_provider: ^2.1.1
+  open_file: ^3.3.2
+  
+  # File Picker
+  file_picker: ^6.1.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/icons/
