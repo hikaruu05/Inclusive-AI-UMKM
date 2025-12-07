@@ -19,60 +19,98 @@ class InventoryScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             children: [
               // Summary Card
-              Card(
-                color: Colors.blue.shade50,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        '📦 Ringkasan Stok',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          _SummaryItem(
-                            'Total Produk',
-                            '${inventoryProvider.products.length}',
-                            Icons.inventory_2,
-                            Colors.blue,
-                          ),
-                          _SummaryItem(
-                            'Stok Rendah',
-                            '${inventoryProvider.lowStockItems?['count'] ?? 0}',
-                            Icons.warning,
-                            Colors.red,
-                          ),
-                        ],
-                      ),
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      const Color(0xFF667EEA).withOpacity(0.9),
+                      const Color(0xFF764BA2).withOpacity(0.9),
                     ],
                   ),
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF667EEA).withOpacity(0.2),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      '📦 Ringkasan Stok',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        _SummaryItem(
+                          'Total Produk',
+                          '${inventoryProvider.products.length}',
+                          Icons.inventory_2,
+                          Colors.white,
+                        ),
+                        Container(
+                          width: 1,
+                          height: 60,
+                          color: Colors.white.withOpacity(0.2),
+                        ),
+                        _SummaryItem(
+                          'Stok Rendah',
+                          '${inventoryProvider.lowStockItems?['count'] ?? 0}',
+                          Icons.warning,
+                          Colors.white,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
               
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
               
               // Search Bar
               TextField(
                 decoration: InputDecoration(
                   hintText: 'Cari produk...',
-                  prefixIcon: const Icon(Icons.search),
+                  hintStyle: const TextStyle(color: Color(0xFFB0B0B0)),
+                  prefixIcon: const Icon(Icons.search, color: Color(0xFF667EEA)),
+                  filled: true,
+                  fillColor: const Color(0xFFF7F7F7),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
                   ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(
+                      color: const Color(0xFFE0E0E0),
+                      width: 1,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(
+                      color: Color(0xFF667EEA),
+                      width: 2,
+                    ),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 14),
                 ),
                 onChanged: (value) {
                   // TODO: Implement search
                 },
               ),
               
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
               
               // Product List
               if (inventoryProvider.products.isEmpty)
@@ -95,52 +133,145 @@ class InventoryScreen extends StatelessWidget {
                     final product = inventoryProvider.products[index];
                     final isLowStock = (product['quantity'] ?? 0) <= (product['min_quantity'] ?? 0);
                     
-                    return Card(
-                      margin: const EdgeInsets.only(bottom: 8),
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: isLowStock ? Colors.red : Colors.blue,
-                          child: Text(
-                            product['name'][0].toUpperCase(),
-                            style: const TextStyle(color: Colors.white),
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: isLowStock
+                              ? const Color(0xFFFF6B6B).withOpacity(0.3)
+                              : const Color(0xFFE0E0E0),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
                           ),
-                        ),
-                        title: Text(
-                          product['name'],
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('SKU: ${product['sku'] ?? '-'}'),
-                            Text('Harga: Rp ${_formatNumber(product['price'] ?? 0)}'),
-                          ],
-                        ),
-                        trailing: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              '${product['quantity']} unit',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: isLowStock ? Colors.red : Colors.green,
-                                fontSize: 16,
-                              ),
-                            ),
-                            if (isLowStock)
-                              const Text(
-                                'Stok Rendah!',
-                                style: TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 10,
-                                ),
-                              ),
-                          ],
-                        ),
+                        ],
+                      ),
+                      child: InkWell(
                         onTap: () {
                           _showProductDetails(context, product, inventoryProvider);
                         },
+                        borderRadius: BorderRadius.circular(12),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 60,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: isLowStock
+                                        ? [
+                                            const Color(0xFFFF6B6B),
+                                            const Color(0xFFFF8787),
+                                          ]
+                                        : [
+                                            const Color(0xFF667EEA),
+                                            const Color(0xFF764BA2),
+                                          ],
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    product['name'][0].toUpperCase(),
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 24,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      product['name'],
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'SKU: ${product['sku'] ?? '-'}',
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        color: Color(0xFF999999),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'Rp ${_formatNumber(product['price'] ?? 0)}',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14,
+                                        color: Color(0xFF10B981),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                      vertical: 4,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: isLowStock
+                                          ? const Color(0xFFFFEBEE)
+                                          : const Color(0xFFECFDF5),
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    child: Text(
+                                      '${product['quantity']} unit',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: isLowStock
+                                            ? const Color(0xFFFF6B6B)
+                                            : const Color(0xFF10B981),
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                  if (isLowStock) ...[
+                                    const SizedBox(height: 6),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 8,
+                                        vertical: 2,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFFFF6B6B),
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      child: const Text(
+                                        'Rendah',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     );
                   },

@@ -18,6 +18,7 @@ class _PaymentUploadScreenState extends State<PaymentUploadScreen> {
   bool _isProcessing = false;
   Map<String, dynamic>? _result;
   String? _validationStatus; // VALID, INVALID, or ERROR
+  final TextEditingController _descriptionController = TextEditingController();
 
   Future<void> _pickImage(ImageSource source) async {
     try {
@@ -90,41 +91,84 @@ class _PaymentUploadScreenState extends State<PaymentUploadScreen> {
   }
 
   @override
+  void dispose() {
+    _descriptionController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Instructions
-          Card(
-            color: Colors.blue.shade50,
-            child: const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '📸 Upload Screenshot Pembayaran',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                  SizedBox(height: 8),
-                  Text('1. Ambil screenshot dari notifikasi bank/e-wallet'),
-                  Text('2. Pastikan nominal dan waktu terlihat jelas'),
-                  Text('3. Upload untuk validasi otomatis'),
+          // Instructions Card
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  const Color(0xFF667EEA).withOpacity(0.9),
+                  const Color(0xFF764BA2).withOpacity(0.9),
                 ],
               ),
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF667EEA).withOpacity(0.2),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text(
+                  '📸 Upload Screenshot Pembayaran',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(height: 12),
+                Text(
+                  '✓ Ambil screenshot dari notifikasi bank/e-wallet',
+                  style: TextStyle(color: Colors.white70, fontSize: 13),
+                ),
+                SizedBox(height: 6),
+                Text(
+                  '✓ Pastikan nominal dan waktu terlihat jelas',
+                  style: TextStyle(color: Colors.white70, fontSize: 13),
+                ),
+                SizedBox(height: 6),
+                Text(
+                  '✓ AI akan otomatis validasi pembayaran Anda',
+                  style: TextStyle(color: Colors.white70, fontSize: 13),
+                ),
+              ],
             ),
           ),
           
-          const SizedBox(height: 16),
+          const SizedBox(height: 24),
           
-          // Image Preview (mobile only - Image.file not supported on web)
+          // Image Preview
           if (_imageFile != null && !kIsWeb)
-            Card(
-              elevation: 4,
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(16),
                 child: Image.file(
                   _imageFile!,
                   height: 400,
@@ -133,36 +177,54 @@ class _PaymentUploadScreenState extends State<PaymentUploadScreen> {
               ),
             )
           else if (_imageFile != null && kIsWeb)
-            Card(
-              elevation: 4,
-              color: Colors.blue.shade50,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  '✅ Image selected: ${_imageFile!.path.split('/').last}',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: const Color(0xFFECFDF5),
+                border: Border.all(color: const Color(0xFF10B981)),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.check_circle, color: Color(0xFF10B981), size: 28),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      '✅ Image selected: ${_imageFile!.path.split('/').last}',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF10B981),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             )
           else
             Container(
               height: 300,
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(12),
-                color: Colors.grey.shade100,
+                border: Border.all(color: const Color(0xFFE0E0E0), width: 2),
+                borderRadius: BorderRadius.circular(16),
+                color: const Color(0xFFF7F7F7),
               ),
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.image, size: 64, color: Colors.grey),
-                  SizedBox(height: 8),
-                  Text('Belum ada gambar dipilih'),
+                  Icon(Icons.image_outlined, size: 64, color: Color(0xFFB0B0B0)),
+                  SizedBox(height: 12),
+                  Text(
+                    'Belum ada gambar dipilih',
+                    style: TextStyle(
+                      color: Color(0xFF999999),
+                      fontSize: 16,
+                    ),
+                  ),
                 ],
               ),
             ),
           
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
           
           // Image Source Buttons
           Row(
@@ -173,219 +235,208 @@ class _PaymentUploadScreenState extends State<PaymentUploadScreen> {
                   icon: const Icon(Icons.camera_alt),
                   label: const Text('Kamera'),
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.all(16),
+                    backgroundColor: const Color(0xFF667EEA),
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 0,
                   ),
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 12),
               Expanded(
                 child: ElevatedButton.icon(
                   onPressed: () => _pickImage(ImageSource.gallery),
                   icon: const Icon(Icons.photo_library),
                   label: const Text('Galeri'),
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.all(16),
+                    backgroundColor: const Color(0xFF764BA2),
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 0,
                   ),
                 ),
               ),
             ],
           ),
           
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
           
           // Validation Status Indicator
-          if (_validationStatus != null)
-            Card(
-              color: _validationStatus == 'VALID' 
-                ? Colors.green.shade50 
-                : _validationStatus == 'INVALID'
-                ? Colors.red.shade50
-                : Colors.orange.shade50,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Row(
-                  children: [
-                    Icon(
-                      _validationStatus == 'VALID' 
-                        ? Icons.check_circle 
-                        : _validationStatus == 'INVALID'
-                        ? Icons.cancel
-                        : Icons.error,
-                      color: _validationStatus == 'VALID' 
-                        ? Colors.green 
-                        : _validationStatus == 'INVALID'
-                        ? Colors.red
-                        : Colors.orange,
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        _validationStatus == 'VALID' 
-                          ? 'Pembayaran Valid ✅' 
-                          : _validationStatus == 'INVALID'
-                          ? 'Pembayaran Tidak Valid ❌'
-                          : 'Error pada validasi ⚠️',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: _validationStatus == 'VALID' 
-                            ? Colors.green 
-                            : _validationStatus == 'INVALID'
-                            ? Colors.red
-                            : Colors.orange,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          
-          const SizedBox(height: 16),
-          
-          // Upload Button
-          ElevatedButton.icon(
-            onPressed: _isProcessing ? null : _uploadPayment,
-            icon: _isProcessing 
-                ? const SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
-                  )
-                : const Icon(Icons.check),
-            label: Text(_isProcessing ? 'Memproses...' : 'Konfirmasi & Simpan'),
-            style: ElevatedButton.styleFrom(
+          if (_validationStatus != null) ...[
+            Container(
               padding: const EdgeInsets.all(16),
-              backgroundColor: _validationStatus == 'VALID' ? Colors.green : Colors.grey,
-              foregroundColor: Colors.white,
-            ),
-          ),
-          
-          // Results
-          if (_result != null) ...[
-            const SizedBox(height: 24),
-            Card(
-              color: _result!['status'] == 'matched' 
-                  ? Colors.green.shade50 
-                  : Colors.orange.shade50,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+              decoration: BoxDecoration(
+                color: _validationStatus == 'VALID'
+                    ? const Color(0xFFECFDF5)
+                    : _validationStatus == 'INVALID'
+                        ? const Color(0xFFFFEBEE)
+                        : const Color(0xFFFEF3C7),
+                border: Border.all(
+                  color: _validationStatus == 'VALID'
+                      ? const Color(0xFFD1FAE5)
+                      : _validationStatus == 'INVALID'
+                          ? const Color(0xFFFECACA)
+                          : const Color(0xFFFDE68A),
+                ),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: _validationStatus == 'VALID'
+                          ? const Color(0xFF10B981)
+                          : _validationStatus == 'INVALID'
+                              ? const Color(0xFFFF6B6B)
+                              : const Color(0xFFF59E0B),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Icon(
+                      _validationStatus == 'VALID'
+                          ? Icons.check_circle
+                          : _validationStatus == 'INVALID'
+                              ? Icons.cancel
+                              : Icons.info,
+                      color: Colors.white,
+                      size: 24,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(
-                          _result!['status'] == 'matched' 
-                              ? Icons.check_circle 
-                              : Icons.pending,
-                          color: _result!['status'] == 'matched' 
-                              ? Colors.green 
-                              : Colors.orange,
-                        ),
-                        const SizedBox(width: 8),
                         Text(
-                          _result!['status'] == 'matched' 
-                              ? 'Pembayaran Cocok!' 
-                              : 'Pending Validasi',
-                          style: const TextStyle(
+                          _validationStatus == 'VALID'
+                              ? 'Pembayaran Valid'
+                              : _validationStatus == 'INVALID'
+                                  ? 'Pembayaran Invalid'
+                                  : 'Pemeriksaan Gagal',
+                          style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 18,
+                            color: _validationStatus == 'VALID'
+                                ? const Color(0xFF059669)
+                                : _validationStatus == 'INVALID'
+                                    ? const Color(0xFFDC2626)
+                                    : const Color(0xFFB45309),
+                            fontSize: 14,
                           ),
                         ),
-                      ],
-                    ),
-                    const Divider(),
-                    if (_result!['extracted_data'] != null) ...[
-                      _InfoRow('Nominal', 'Rp ${_result!['extracted_data']['amount']}'),
-                      _InfoRow('Waktu', _result!['extracted_data']['timestamp'] ?? '-'),
-                      _InfoRow('Referensi', _result!['extracted_data']['reference'] ?? '-'),
-                      if (_result!['confidence'] != null)
-                        _InfoRow('Confidence', '${(_result!['confidence'] * 100).toStringAsFixed(1)}%'),
-                    ],
-                  ],
-                ),
-              ),
-            ),
-          ],
-          
-          const SizedBox(height: 24),
-          
-          // Pending Payments List
-          const Text(
-            'Pembayaran Pending',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 12),
-          
-          Consumer<PaymentProvider>(
-            builder: (context, paymentProvider, child) {
-              if (paymentProvider.isLoading) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              
-              if (paymentProvider.pendingPayments.isEmpty) {
-                return const Card(
-                  child: Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Row(
-                      children: [
-                        Icon(Icons.check_circle, color: Colors.green),
-                        SizedBox(width: 12),
-                        Text('Tidak ada pembayaran pending'),
+                        if (_result != null && _result!['details'] != null) ...[
+                          const SizedBox(height: 4),
+                          Text(
+                            '${_result!['details']}',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: _validationStatus == 'VALID'
+                                  ? const Color(0xFF059669)
+                                  : _validationStatus == 'INVALID'
+                                      ? const Color(0xFFDC2626)
+                                      : const Color(0xFFB45309),
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
                       ],
                     ),
                   ),
-                );
-              }
-              
-              return ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: paymentProvider.pendingPayments.length,
-                itemBuilder: (context, index) {
-                  final payment = paymentProvider.pendingPayments[index];
-                  return Card(
-                    child: ListTile(
-                      leading: const Icon(Icons.pending_actions, color: Colors.orange),
-                      title: Text('Rp ${payment['amount']}'),
-                      subtitle: Text(payment['timestamp'] ?? 'Tanggal tidak diketahui'),
-                      trailing: Chip(
-                        label: Text('${payment['confidence_score']}%'),
-                        backgroundColor: Colors.orange.shade100,
-                      ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+          ],
+          
+          // Description Input Field
+          const Text(
+            'Deskripsi Pembelian',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 8),
+          TextField(
+            controller: _descriptionController,
+            maxLines: 3,
+            decoration: InputDecoration(
+              hintText: 'Masukkan deskripsi pembelian (mis: Bahan baku, nama produk, jumlah item, dll)',
+              hintStyle: const TextStyle(
+                color: Color(0xFFB0B0B0),
+                fontSize: 14,
+              ),
+              filled: true,
+              fillColor: const Color(0xFFF7F7F7),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide.none,
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(
+                  color: const Color(0xFFE0E0E0),
+                  width: 1.5,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(
+                  color: Color(0xFF667EEA),
+                  width: 2,
+                ),
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 14,
+              ),
+            ),
+            style: const TextStyle(fontSize: 14),
+          ),
+          
+          const SizedBox(height: 24),
+          
+          // Upload Button
+          ElevatedButton.icon(
+            onPressed: _isProcessing
+                ? null
+                : (_imageFile == null
+                    ? null
+                    : _uploadPayment),
+            icon: _isProcessing
+                ? const SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.5,
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                     ),
-                  );
-                },
-              );
-            },
+                  )
+                : const Icon(Icons.check_circle),
+            label: Text(
+              _isProcessing ? 'Memvalidasi...' : 'Simpan Pembayaran',
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF667EEA),
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              elevation: 0,
+              disabledBackgroundColor: const Color(0xFF667EEA).withOpacity(0.5),
+            ),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class _InfoRow extends StatelessWidget {
-  final String label;
-  final String value;
-
-  const _InfoRow(this.label, this.value);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            label,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          Text(value),
         ],
       ),
     );

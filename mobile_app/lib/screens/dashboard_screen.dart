@@ -24,27 +24,60 @@ class DashboardScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Welcome Card
-            Card(
-              color: Colors.blue.shade50,
-              child: const Padding(
-                padding: EdgeInsets.all(16.0),
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    const Color(0xFF667EEA),
+                    const Color(0xFF764BA2),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF667EEA).withOpacity(0.3),
+                    blurRadius: 15,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
                 child: Row(
                   children: [
-                    Icon(Icons.waving_hand, color: Colors.orange, size: 32),
-                    SizedBox(width: 16),
-                    Expanded(
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Icon(
+                        Icons.waving_hand,
+                        color: Colors.white,
+                        size: 32,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    const Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Selamat Datang!',
+                            'Selamat Datang Kembali!',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
+                              color: Colors.white,
                             ),
                           ),
                           SizedBox(height: 4),
-                          Text('Kelola pembayaran & stok UMKM Anda'),
+                          Text(
+                            'Pantau pembayaran & stok bisnis Anda',
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 14,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -53,7 +86,7 @@ class DashboardScreen extends StatelessWidget {
               ),
             ),
             
-            const SizedBox(height: 24),
+            const SizedBox(height: 28),
             
             // Today's Stats
             const Text(
@@ -63,7 +96,7 @@ class DashboardScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 14),
             
             Consumer<PaymentProvider>(
               builder: (context, paymentProvider, child) {
@@ -81,8 +114,8 @@ class DashboardScreen extends StatelessWidget {
                           child: _StatCard(
                             title: 'Total Pendapatan',
                             value: 'Rp ${_formatNumber(stats['total_amount'] ?? 0)}',
-                            icon: Icons.attach_money,
-                            color: Colors.green,
+                            icon: Icons.trending_up,
+                            color: const Color(0xFF10B981),
                           ),
                         ),
                         const SizedBox(width: 12),
@@ -90,8 +123,8 @@ class DashboardScreen extends StatelessWidget {
                           child: _StatCard(
                             title: 'Transaksi',
                             value: '${stats['count'] ?? 0}',
-                            icon: Icons.receipt,
-                            color: Colors.blue,
+                            icon: Icons.payment,
+                            color: const Color(0xFF667EEA),
                           ),
                         ),
                       ],
@@ -103,8 +136,8 @@ class DashboardScreen extends StatelessWidget {
                           child: _StatCard(
                             title: 'Pending',
                             value: '${paymentProvider.pendingPayments.length}',
-                            icon: Icons.pending,
-                            color: Colors.orange,
+                            icon: Icons.hourglass_bottom,
+                            color: const Color(0xFFF59E0B),
                           ),
                         ),
                         const SizedBox(width: 12),
@@ -112,8 +145,8 @@ class DashboardScreen extends StatelessWidget {
                           child: _StatCard(
                             title: 'Rata-rata',
                             value: 'Rp ${_formatNumber(stats['avg_amount'] ?? 0)}',
-                            icon: Icons.analytics,
-                            color: Colors.purple,
+                            icon: Icons.calculate,
+                            color: const Color(0xFF8B5CF6),
                           ),
                         ),
                       ],
@@ -123,7 +156,7 @@ class DashboardScreen extends StatelessWidget {
               },
             ),
             
-            const SizedBox(height: 24),
+            const SizedBox(height: 28),
             
             // Low Stock Alert
             const Text(
@@ -133,23 +166,45 @@ class DashboardScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 14),
             
             Consumer<InventoryProvider>(
               builder: (context, inventoryProvider, child) {
                 final lowStock = inventoryProvider.lowStockItems;
                 
                 if (lowStock == null || lowStock['items'] == null) {
-                  return const Card(
-                    child: Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.check_circle, color: Colors.green),
-                          SizedBox(width: 12),
-                          Text('Semua stok aman'),
-                        ],
-                      ),
+                  return Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFECFDF5),
+                      border: Border.all(color: const Color(0xFFD1FAE5)),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF10B981),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Icon(
+                            Icons.check_circle,
+                            color: Colors.white,
+                            size: 24,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        const Expanded(
+                          child: Text(
+                            'Semua stok dalam kondisi aman',
+                            style: TextStyle(
+                              color: Color(0xFF059669),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 }
@@ -171,8 +226,12 @@ class DashboardScreen extends StatelessWidget {
                   );
                 }
                 
-                return Card(
-                  color: Colors.red.shade50,
+                return Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFEBEE),
+                    border: Border.all(color: const Color(0xFFFECACA)),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   child: ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
@@ -181,12 +240,12 @@ class DashboardScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final item = items[index];
                       return ListTile(
-                        leading: const Icon(Icons.warning, color: Colors.red),
+                        leading: const Icon(Icons.warning, color: Color(0xFFDC2626)),
                         title: Text(item['name']),
                         subtitle: Text('Stok: ${item['quantity']} unit'),
                         trailing: Text(
                           'Min: ${item['min_quantity']}',
-                          style: const TextStyle(color: Colors.red),
+                          style: const TextStyle(color: Color(0xFFDC2626)),
                         ),
                       );
                     },
@@ -272,34 +331,52 @@ class _StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 2,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Icon(icon, size: 32, color: color),
-            const SizedBox(height: 8),
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 12,
-                color: Colors.grey,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 4),
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: color,
-              ),
-              textAlign: TextAlign.center,
-            ),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            color.withOpacity(0.1),
+            color.withOpacity(0.05),
           ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
+        border: Border.all(color: color.withOpacity(0.3)),
+        borderRadius: BorderRadius.circular(14),
+      ),
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(icon, size: 28, color: color),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 12,
+              color: Color(0xFF999999),
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1a1a1a),
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
       ),
     );
   }
