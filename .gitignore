@@ -14,9 +14,6 @@
 backend/
 *.py
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
 
 # Database
 *.sqlite
