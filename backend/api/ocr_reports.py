@@ -9,7 +9,7 @@ from pathlib import Path
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from backend.services.book_report_ocr import BookReportOCR
+from backend.services.advanced_ocr import AdvancedOCR
 from backend.services.auth_service import get_current_user
 
 router = APIRouter(prefix="/api/ocr", tags=["OCR"])
@@ -48,7 +48,7 @@ async def convert_book_to_excel(
             buffer.write(content)
         
         # Process image with OCR
-        ocr_processor = BookReportOCR()
+        ocr_processor = AdvancedOCR()
         result = ocr_processor.extract_table_from_image(str(image_path))
         
         if not result["success"]:

@@ -22,6 +22,7 @@ easyocr==1.7.1
 pytesseract==0.3.10
 pillow==10.1.0
 opencv-python==4.8.1.78
+google-cloud-vision==3.4.4
 
 # AI/ML Libraries
 openai==1.3.7
