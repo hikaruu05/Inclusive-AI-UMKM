@@ -14,8 +14,6 @@
 backend/
 *.py
 __pycache__/
-<<<<<<< Updated upstream
-=======
 *.py[cod]
 *$py.class
 *.so
@@ -37,7 +35,6 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
->>>>>>> Stashed changes
 
 # Database
 *.sqlite
@@ -54,9 +51,6 @@ ENV/
 # Environment variables
 .env
 
-# Python dependencies
-requirements.txt
-
 # Setup scripts (Python)
 setup.ps1
 setup_demo.py
@@ -64,9 +58,6 @@ init_db.py
 create_user.py
 test_system.py
 run_backend.ps1
-
-# Documentation files
-*.md
 
 # IDE
 .vscode/
