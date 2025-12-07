@@ -85,110 +85,111 @@ class _BookOcrScreenState extends State<BookOcrScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return Scaffold(
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Header Card
+            // Header Section
             Container(
+              padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    const Color(0xFF667EEA).withOpacity(0.9),
-                    const Color(0xFF764BA2).withOpacity(0.9),
-                  ],
-                ),
+                color: isDark ? const Color(0xFF141824) : Colors.white,
                 borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: isDark ? const Color(0xFF1E293B) : const Color(0xFFE2E8F0),
+                ),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFF667EEA).withOpacity(0.2),
-                    blurRadius: 10,
+                    color: Colors.black.withOpacity(isDark ? 0.2 : 0.04),
+                    blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    '📖 Konversi Buku ke Excel',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                      color: Colors.white,
-                    ),
-                  ),
-                  SizedBox(height: 12),
-                  Text(
-                    'Ubah foto halaman buku laporan menjadi data Excel dengan teknologi AI OCR',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            
-            const SizedBox(height: 24),
-            
-            // Info Card
-            Container(
-              decoration: BoxDecoration(
-                color: const Color(0xFFF0F4FF),
-                border: Border.all(color: const Color(0xFFE0EAFF)),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    '📋 Cara Penggunaan:',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      color: Color(0xFF667EEA),
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF10B981).withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(
+                          Icons.auto_awesome,
+                          color: Color(0xFF10B981),
+                          size: 24,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Buku ke Excel',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 20,
+                                color: isDark ? Colors.white : const Color(0xFF0F172A),
+                                letterSpacing: -0.5,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              'Konversi otomatis dengan AI',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF8FAFC),
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                  ),
-                  const SizedBox(height: 12),
-                  _InfoStep(
-                    number: 1,
-                    text: 'Ambil foto halaman buku laporan',
-                  ),
-                  const SizedBox(height: 8),
-                  _InfoStep(
-                    number: 2,
-                    text: 'Pastikan tulisan jelas dan pencahayaan baik',
-                  ),
-                  const SizedBox(height: 8),
-                  _InfoStep(
-                    number: 3,
-                    text: 'Klik "Proses OCR" untuk ekstrak data',
-                  ),
-                  const SizedBox(height: 8),
-                  _InfoStep(
-                    number: 4,
-                    text: 'Download hasil dalam format Excel',
+                    child: Column(
+                      children: [
+                        _StepItem(1, 'Foto halaman buku laporan', Icons.camera_alt, isDark),
+                        const SizedBox(height: 12),
+                        _StepItem(2, 'AI ekstrak data otomatis', Icons.smart_toy, isDark),
+                        const SizedBox(height: 12),
+                        _StepItem(3, 'Download file Excel', Icons.table_chart, isDark),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
             
-            const SizedBox(height: 24),
+            const SizedBox(height: 20),
             
             // Image Preview
             if (_imageFile != null)
               Container(
                 decoration: BoxDecoration(
+                  color: isDark ? const Color(0xFF141824) : Colors.white,
                   borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: isDark ? const Color(0xFF1E293B) : const Color(0xFFE2E8F0),
+                  ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 10,
+                      color: Colors.black.withOpacity(isDark ? 0.2 : 0.04),
+                      blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),
                   ],
@@ -204,26 +205,38 @@ class _BookOcrScreenState extends State<BookOcrScreen> {
               )
             else
               Container(
-                height: 300,
+                height: 280,
                 decoration: BoxDecoration(
-                  border: Border.all(color: const Color(0xFFE0E0E0), width: 2),
+                  color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF8FAFC),
+                  border: Border.all(
+                    color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
+                    width: 2,
+                  ),
                   borderRadius: BorderRadius.circular(16),
-                  color: const Color(0xFFF7F7F7),
                 ),
-                child: const Column(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
-                      Icons.image_outlined,
-                      size: 64,
-                      color: Color(0xFFB0B0B0),
+                      Icons.book_outlined,
+                      size: 72,
+                      color: isDark ? const Color(0xFF475569) : const Color(0xFFCBD5E1),
                     ),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 16),
                     Text(
-                      'Belum ada gambar dipilih',
+                      'Belum ada foto',
                       style: TextStyle(
-                        color: Color(0xFF999999),
+                        color: isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
                         fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Upload foto halaman buku',
+                      style: TextStyle(
+                        color: isDark ? const Color(0xFF64748B) : const Color(0xFF94A3B8),
+                        fontSize: 14,
                       ),
                     ),
                   ],
@@ -232,18 +245,21 @@ class _BookOcrScreenState extends State<BookOcrScreen> {
             
             const SizedBox(height: 20),
             
-            // Image Source Buttons
+            // Action Buttons
             Row(
               children: [
                 Expanded(
                   child: ElevatedButton.icon(
                     onPressed: () => _pickImage(ImageSource.camera),
-                    icon: const Icon(Icons.camera_alt),
-                    label: const Text('Ambil Foto'),
+                    icon: const Icon(Icons.camera_alt, size: 20),
+                    label: const Text(
+                      'Kamera',
+                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+                    ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF667EEA),
+                      backgroundColor: const Color(0xFF10B981),
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -253,83 +269,88 @@ class _BookOcrScreenState extends State<BookOcrScreen> {
                 ),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: ElevatedButton.icon(
+                  child: OutlinedButton.icon(
                     onPressed: () => _pickImage(ImageSource.gallery),
-                    icon: const Icon(Icons.photo_library),
-                    label: const Text('Dari Galeri'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF764BA2),
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                    icon: const Icon(Icons.photo_library, size: 20),
+                    label: const Text(
+                      'Galeri',
+                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: const Color(0xFF10B981),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      side: const BorderSide(color: Color(0xFF10B981), width: 2),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      elevation: 0,
                     ),
                   ),
                 ),
               ],
             ),
             
-            const SizedBox(height: 20),
+            const SizedBox(height: 16),
             
             // Process Button
-            ElevatedButton.icon(
-              onPressed: _isProcessing ? null : _processBookReport,
-              icon: _isProcessing 
-                  ? const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2.5,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      ),
-                    )
-                  : const Icon(Icons.auto_awesome),
-              label: Text(
-                _isProcessing ? 'Memproses...' : 'Proses OCR',
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
+            if (_imageFile != null && _ocrResult == null)
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: _isProcessing ? null : _processBookReport,
+                  icon: _isProcessing
+                      ? const SizedBox(
+                          height: 22,
+                          width: 22,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2.5,
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          ),
+                        )
+                      : const Icon(Icons.auto_awesome, size: 22),
+                  label: Text(
+                    _isProcessing ? 'Memproses...' : 'Proses OCR',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.3,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF3B82F6),
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 18),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 0,
+                    disabledBackgroundColor: const Color(0xFF3B82F6).withOpacity(0.5),
+                  ),
                 ),
               ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF667EEA),
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                elevation: 0,
-                disabledBackgroundColor: const Color(0xFF667EEA).withOpacity(0.5),
-              ),
-            ),
             
             // Results Section
             if (_ocrResult != null) ...[
               const SizedBox(height: 24),
               Container(
+                padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      const Color(0xFF10B981).withOpacity(0.1),
-                      const Color(0xFF10B981).withOpacity(0.05),
-                    ],
+                  color: const Color(0xFF10B981).withOpacity(0.1),
+                  border: Border.all(
+                    color: const Color(0xFF10B981).withOpacity(0.3),
+                    width: 2,
                   ),
-                  border: Border.all(color: const Color(0xFF10B981).withOpacity(0.3)),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
                 ),
-                padding: const EdgeInsets.all(18),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
                         Container(
-                          padding: const EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             color: const Color(0xFF10B981),
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           child: const Icon(
                             Icons.check_circle,
@@ -338,89 +359,56 @@ class _BookOcrScreenState extends State<BookOcrScreen> {
                           ),
                         ),
                         const SizedBox(width: 12),
-                        const Text(
-                          'Hasil Ekstraksi',
+                        const Expanded(
+                          child: Text(
+                            'Berhasil Diekstrak!',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xFF059669),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Total: ${_ocrResult!['item_count'] ?? 0} item terdeteksi',
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF059669),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        onPressed: _downloadExcel,
+                        icon: const Icon(Icons.download, size: 22),
+                        label: const Text(
+                          'Download Excel',
                           style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: Color(0xFF059669),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    Container(
-                      height: 1,
-                      color: const Color(0xFF10B981).withOpacity(0.2),
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _ResultItem(
-                            icon: Icons.table_rows,
-                            label: 'Baris',
-                            value: '${_ocrResult!['rows_extracted'] ?? 0}',
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF10B981),
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                        ),
-                        Container(
-                          width: 1,
-                          height: 40,
-                          color: const Color(0xFF10B981).withOpacity(0.2),
-                        ),
-                        Expanded(
-                          child: _ResultItem(
-                            icon: Icons.view_column,
-                            label: 'Kolom',
-                            value: '${_ocrResult!['columns_detected'] ?? 0}',
-                          ),
-                        ),
-                      ],
-                    ),
-                    if (_ocrResult!['preview'] != null) ...[
-                      const SizedBox(height: 8),
-                      const Text(
-                        'Preview Data:',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 4),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: Text(
-                          _ocrResult!['preview'],
-                          style: const TextStyle(
-                            fontFamily: 'monospace',
-                            fontSize: 12,
-                          ),
+                          elevation: 0,
                         ),
                       ),
-                    ],
+                    ),
                   ],
                 ),
               ),
-              
-              const SizedBox(height: 16),
-              
-              // Download Button
-              ElevatedButton.icon(
-                onPressed: _isProcessing ? null : _downloadExcel,
-                icon: const Icon(Icons.download),
-                label: const Text('Download Excel'),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  backgroundColor: const Color(0xFF10B981),
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  elevation: 0,
-                ),
-              ),
             ],
+            const SizedBox(height: 20),
           ],
         ),
       ),
@@ -428,84 +416,51 @@ class _BookOcrScreenState extends State<BookOcrScreen> {
   }
 }
 
-class _InfoStep extends StatelessWidget {
+class _StepItem extends StatelessWidget {
   final int number;
   final String text;
+  final IconData icon;
+  final bool isDark;
 
-  const _InfoStep({
-    required this.number,
-    required this.text,
-  });
+  const _StepItem(this.number, this.text, this.icon, this.isDark);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Container(
-          width: 28,
-          height: 28,
+          width: 32,
+          height: 32,
           decoration: BoxDecoration(
-            color: const Color(0xFF667EEA),
-            borderRadius: BorderRadius.circular(6),
+            color: const Color(0xFF10B981).withOpacity(0.15),
+            borderRadius: BorderRadius.circular(8),
           ),
           child: Center(
             child: Text(
               '$number',
               style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+                color: Color(0xFF10B981),
+                fontWeight: FontWeight.w700,
                 fontSize: 14,
               ),
             ),
           ),
         ),
         const SizedBox(width: 12),
+        Icon(
+          icon,
+          size: 18,
+          color: isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
+        ),
+        const SizedBox(width: 8),
         Expanded(
           child: Text(
             text,
-            style: const TextStyle(
-              fontSize: 14,
-              color: Color(0xFF333333),
-              height: 1.4,
+            style: TextStyle(
+              fontSize: 13,
+              color: isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
+              fontWeight: FontWeight.w500,
             ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _ResultItem extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final String value;
-
-  const _ResultItem({
-    required this.icon,
-    required this.label,
-    required this.value,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Icon(icon, color: const Color(0xFF10B981), size: 28),
-        const SizedBox(height: 6),
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 12,
-            color: Color(0xFF666666),
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF059669),
           ),
         ),
       ],

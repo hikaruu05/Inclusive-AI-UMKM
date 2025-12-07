@@ -1,31 +1,37 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  // Colors
-  static const Color primaryColor = Color(0xFF2563EB); // Blue
-  static const Color secondaryColor = Color(0xFF10B981); // Green
-  static const Color accentColor = Color(0xFFF59E0B); // Amber
-  static const Color dangerColor = Color(0xFFEF4444); // Red
-  static const Color successColor = Color(0xFF10B981); // Green
-  static const Color warningColor = Color(0xFFF97316); // Orange
+  // Professional Color Palette
+  static const Color primaryColor = Color(0xFF0F172A); // Slate 900
+  static const Color secondaryColor = Color(0xFF3B82F6); // Blue 500 - subtle accent
+  static const Color accentColor = Color(0xFF06B6D4); // Cyan 500
+  static const Color dangerColor = Color(0xFFDC2626); // Red 600
+  static const Color successColor = Color(0xFF059669); // Emerald 600
+  static const Color warningColor = Color(0xFFF59E0B); // Amber 500
   
-  static const Color backgroundColor = Color(0xFFF8FAFC);
+  static const Color backgroundColor = Color(0xFFF8FAFC); // Slate 50
   static const Color surfaceColor = Colors.white;
-  static const Color textColor = Color(0xFF1F2937);
-  static const Color textSecondaryColor = Color(0xFF6B7280);
-  static const Color borderColor = Color(0xFFE5E7EB);
+  static const Color textColor = Color(0xFF0F172A); // Slate 900
+  static const Color textSecondaryColor = Color(0xFF64748B); // Slate 500
+  static const Color borderColor = Color(0xFFE2E8F0); // Slate 200
 
-  // Gradients
+  // Subtle Professional Gradients
   static const LinearGradient primaryGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFF2563EB), Color(0xFF1D4ED8)],
+    colors: [Color(0xFF0F172A), Color(0xFF1E293B)],
+  );
+
+  static const LinearGradient accentGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF3B82F6), Color(0xFF2563EB)],
   );
 
   static const LinearGradient successGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFF10B981), Color(0xFF059669)],
+    colors: [Color(0xFF059669), Color(0xFF047857)],
   );
 
   static const LinearGradient warningGradient = LinearGradient(
@@ -37,7 +43,7 @@ class AppTheme {
   static const LinearGradient dangerGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFFEF4444), Color(0xFFDC2626)],
+    colors: [Color(0xFFDC2626), Color(0xFFB91C1C)],
   );
 
   // Border Radius
@@ -54,88 +60,98 @@ class AppTheme {
   static const double spacingXL = 24;
   static const double spacing2XL = 32;
 
-  // Shadows
+  // Subtle Professional Shadows
   static const List<BoxShadow> shadowSm = [
     BoxShadow(
-      color: Color(0x0A000000),
-      blurRadius: 2,
+      color: Color(0x08000000),
+      blurRadius: 4,
       offset: Offset(0, 1),
+      spreadRadius: 0,
     ),
   ];
 
   static const List<BoxShadow> shadowMd = [
     BoxShadow(
-      color: Color(0x0F000000),
-      blurRadius: 3,
-      offset: Offset(0, 1),
+      color: Color(0x0A000000),
+      blurRadius: 8,
+      offset: Offset(0, 2),
+      spreadRadius: 0,
     ),
   ];
 
   static const List<BoxShadow> shadowLg = [
     BoxShadow(
-      color: Color(0x10000000),
-      blurRadius: 8,
-      offset: Offset(0, 2),
+      color: Color(0x0D000000),
+      blurRadius: 16,
+      offset: Offset(0, 4),
+      spreadRadius: 0,
     ),
   ];
 
   static const List<BoxShadow> shadowXL = [
     BoxShadow(
-      color: Color(0x14000000),
-      blurRadius: 16,
-      offset: Offset(0, 4),
+      color: Color(0x10000000),
+      blurRadius: 24,
+      offset: Offset(0, 8),
+      spreadRadius: 0,
     ),
   ];
 
-  // Text Styles
+  // Modern Typography - Inter/SF Pro style
   static const TextStyle headingLarge = TextStyle(
-    fontSize: 32,
+    fontSize: 28,
     fontWeight: FontWeight.w700,
     color: textColor,
-    height: 1.2,
+    height: 1.3,
+    letterSpacing: -0.5,
   );
 
   static const TextStyle headingMedium = TextStyle(
-    fontSize: 24,
-    fontWeight: FontWeight.w700,
+    fontSize: 22,
+    fontWeight: FontWeight.w600,
     color: textColor,
-    height: 1.33,
+    height: 1.35,
+    letterSpacing: -0.3,
   );
 
   static const TextStyle headingSmall = TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.w700,
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
     color: textColor,
     height: 1.4,
+    letterSpacing: -0.2,
   );
 
   static const TextStyle bodyLarge = TextStyle(
     fontSize: 16,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w400,
     color: textColor,
-    height: 1.5,
+    height: 1.6,
+    letterSpacing: 0,
   );
 
   static const TextStyle bodyMedium = TextStyle(
     fontSize: 14,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w400,
     color: textColor,
-    height: 1.43,
+    height: 1.5,
+    letterSpacing: 0,
   );
 
   static const TextStyle bodySmall = TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w500,
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
     color: textSecondaryColor,
-    height: 1.33,
+    height: 1.45,
+    letterSpacing: 0,
   );
 
   static const TextStyle labelSmall = TextStyle(
-    fontSize: 11,
-    fontWeight: FontWeight.w600,
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
     color: textSecondaryColor,
-    height: 1.27,
-    letterSpacing: 0.5,
+    height: 1.3,
+    letterSpacing: 0.2,
   );
 
   // Duration
@@ -204,13 +220,13 @@ class AppTheme {
     );
   }
 
-  // Dark Theme
+  // Dark Theme - Professional Dark Mode
   static ThemeData get darkTheme {
-    const Color darkBackground = Color(0xFF0F172A);
-    const Color darkSurface = Color(0xFF1E293B);
-    const Color darkTextColor = Color(0xFFF1F5F9);
+    const Color darkBackground = Color(0xFF0A0E1A);
+    const Color darkSurface = Color(0xFF141824);
+    const Color darkTextColor = Color(0xFFF8FAFC);
     const Color darkTextSecondary = Color(0xFF94A3B8);
-    const Color darkBorder = Color(0xFF334155);
+    const Color darkBorder = Color(0xFF1E293B);
 
     return ThemeData(
       useMaterial3: true,

@@ -133,7 +133,6 @@ class _EnhancedActionButtonState extends State<EnhancedActionButton>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
-  late Animation<double> _rotateAnimation;
 
   @override
   void initState() {
@@ -144,9 +143,6 @@ class _EnhancedActionButtonState extends State<EnhancedActionButton>
     );
     _scaleAnimation = Tween<double>(begin: 1.0, end: 1.08).animate(
       CurvedAnimation(parent: _controller, curve: Curves.elasticOut),
-    );
-    _rotateAnimation = Tween<double>(begin: 0, end: 0.05).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
     );
   }
 
